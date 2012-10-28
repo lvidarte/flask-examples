@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Taller GNU/Linux</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="page">
+        <h1>Taller GNU/Linux</h1>
+        <h2>Escuela Pepe Biondi Nro. 65</h2>
+
+        <p>Descargá el material del taller <a href="{{ url_for('static', filename='primeros_pasos.pdf') }}">primeros_pasos.pdf</a></p>
+
+        {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+        {% endfor %}
+
+        {% block entries %}{% endblock %}
+    </div>
+</body>
+</html>
