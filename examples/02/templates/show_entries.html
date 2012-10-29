@@ -1,19 +1,17 @@
 {% extends "layout.html" %}
 {% block entries %}
     <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
-    <dl>
-        <dt>Mensaje<dt>
-        <dd><textarea name="message" rows=5 cols=40></textarea></dd>
-        <dd><input type="submit" value="Dejá un comentario"></dd>
-    </dl>
+    <fieldset>
+        <textarea name="message" rows=6 cols=40></textarea>
+        <br>
+        <input type="submit" value="Dejá un comentario">
+    </fieldset>
     </form>
 
-    <dl class="entries">
+    <div class="entries">
     {% for entry in entries %}
-        <dt class="created">{{ entry.created }}</dt>
-        <dd>{{ entry.message|safe }}</dd>
-    {% else %}
-        <dd><em>No hay mensajes aun :(</em></dd>
+        <div class="created">{{ entry.created.strftime('%H:%M') }}</div>
+        <pre class="entry">{{ entry.message|safe }}</pre>
     {% endfor %}
-    </dl>
+    </div>
 {% endblock %}

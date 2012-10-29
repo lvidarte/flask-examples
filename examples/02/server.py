@@ -5,7 +5,7 @@ from flask import Flask, request, g, redirect, url_for, \
 
 DATABASE = os.path.join(os.path.dirname(__file__), 'data.db')
 DEBUG = True
-SECRET_KEY = 'dfdouererlejdfndlgdf'
+SECRET_KEY = 'fm\n6z"!g~ujL[>e G\x0c\r4r1Z$]"'
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -18,7 +18,10 @@ def init_db():
     db.commit()
 
 def get_db():
-    return sqlite3.connect(app.config['DATABASE'])
+    conn = sqlite3.connect(app.config['DATABASE'],
+                           detect_types=sqlite3.PARSE_COLNAMES)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 @app.before_request
 def before_request():
@@ -30,20 +33,22 @@ def teardown_request(exception):
 
 @app.route('/')
 def show_entries():
-    cur = g.db.execute('''SELECT datetime(created, "localtime"),
-                          message FROM entries ORDER BY id DESC''')
-    entries = [dict(created=row[0], message=row[1]) for row in cur.fetchall()]
+    cur = g.db.execute('''SELECT message, datetime(created, "localtime")
+                          AS "created [timestamp]"
+                          FROM entries ORDER BY id DESC''')
+    entries = cur.fetchall()
+    print entries
+    #entries = [dict(created=row[0], message=row[1]) for row in cur.fetchall()]
     return render_template('show_entries.html', entries=entries)
 
 @app.route('/add', methods=['POST'])
 def add_entry():
-    print request.form['message']
     g.db.execute('INSERT INTO entries (message) VALUES (?)',
-                 (request.form['message'],))
+                 (request.form['message'].strip(),))
     g.db.commit()
     flash("Gracias por tu mensaje! :)")
     return redirect(url_for('show_entries'))
 
 if __name__ == '__main__':
-    #init_db()
-    app.run(host='0.0.0.0', port=80)
+    init_db()
+    app.run(host='0.0.0.0', port=8000)

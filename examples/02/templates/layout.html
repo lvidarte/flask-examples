@@ -10,7 +10,13 @@
         <h1>Taller GNU/Linux</h1>
         <h2>Escuela Pepe Biondi Nro. 65</h2>
 
-        <p>Descargá el material del taller <a href="{{ url_for('static', filename='primeros_pasos.pdf') }}">primeros_pasos.pdf</a></p>
+        <table class="download">
+        <tr>
+            <td><p>Descargá el material del taller<br>
+                <a href="{{ url_for('static', filename='primeros_pasos_con_gnulinux.pdf') }}">Primeros pasos con GNU/Linux</a></p></td>
+            <td style="width:150px"><a href="{{ url_for('static', filename='primeros_pasos_con_gnulinux.pdf') }}"><img src="{{ url_for('static', filename='download.png') }}" width="100" height="100"></a></td>
+        </tr>
+        </table>
 
         {% for message in get_flashed_messages() %}
         <div class="flash">{{ message }}</div>
