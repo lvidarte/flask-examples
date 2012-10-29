@@ -37,7 +37,8 @@ def show_entries():
                           AS "created [timestamp]"
                           FROM entries ORDER BY id DESC''')
     entries = cur.fetchall()
-    print entries
+    if len(entries):
+        print entries[-1]
     #entries = [dict(created=row[0], message=row[1]) for row in cur.fetchall()]
     return render_template('show_entries.html', entries=entries)
 
